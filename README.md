@@ -1,4 +1,5 @@
-# Basic Blog created with Python, using the Django framework.
+# Basic Blog* created with Python, using the Django framework.
+*Note: The project is not deployed yet.
 
 This is the starting page. Here we can see some info about the author, navigation to all posts and the three latest posts in the blog.
 
