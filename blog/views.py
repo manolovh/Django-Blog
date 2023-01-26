@@ -12,17 +12,15 @@ posts_list = [
         "title": "Mountain Hiking",
         "excerpt": "There's nothing like mountain views! I didn't even expect that!",
         "content": """
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Quaerat quam, eum corporis quis eius cumque vitae fugit perferendis
-                facilis quia, et mollitia nisi molestiae ea ab tempora odio? Cum, necessitatibus!
+                Whether you’re a ski tourer or a freerider – anyone who loves spending time in the mountains knows that sometimes
 
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Quaerat quam, eum corporis quis eius cumque vitae fugit perferendis
-                facilis quia, et mollitia nisi molestiae ea ab tempora odio? Cum, necessitatibus!
+                the most beautiful challenges lie right on your front doorstep. During the #salewahome campaign,
 
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Quaerat quam, eum corporis quis eius cumque vitae fugit perferendis
-                facilis quia, et mollitia nisi molestiae ea ab tempora odio? Cum, necessitatibus!
+                Salewa called on mountain enthusiasts to share their mountain dreams – and then offered to help them come true.
+
+                The applicants had to come with the required the fitness and audacity, while Salewa supplied the equipment and
+                
+                mountain guide support.Five projects were selected – five dreams came true.
         """,
     },
     {
