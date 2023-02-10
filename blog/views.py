@@ -1,25 +1,63 @@
-from datetime import date
 from django.shortcuts import render
-from django.http import Http404
+from django.views.generic import ListView
+from django.views import View
+from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Author, Tag, Post
 
-posts_list = Post.objects.all()
+from .models import Post
+from .forms import CommentForm
+
 latest_posts = Post.objects.order_by("-date")
 
-def index(request):
-    return render(request, "blog/index.html", {
-        "posts": latest_posts,
-    })
+class IndexView(ListView):
+    template_name = "blog/index.html"
+    model = Post
+    ordering = ["-date",]
+    context_object_name = "posts"
+    
 
-def posts(request):
-    return render(request, "blog/all-posts.html", {
-        "all_posts": latest_posts,
-    })
+    def get_queryset(self):
+        query_set = super().get_queryset()
+        data = query_set[:3]
+        return data
 
-def post_detail(request, slug):
-    # found_post = next(post for post in posts_list if post['slug'] == slug)
-    found_post = Post.objects.get(slug=slug)
-    return render(request, "blog/post-detail.html", {
-        "post": found_post,
-    })
+
+class AllPostsView(ListView):
+    template_name = "blog/all-posts.html"
+    model = Post
+    ordering = ["-date",]
+    context_object_name = "all_posts"
+
+
+class PostDetailView(View):
+
+    def get(self, request, slug):
+        post = Post.objects.get(slug=slug)
+        context = {
+        "post": post,
+        "tags": post.tags.all(),
+        "form": CommentForm(),
+        "all_comments": post.comments.all
+    }
+        return render(request, "blog/post-detail.html", context)
+
+    def post(self, request, slug):
+        comment_form = CommentForm(request.POST)
+        post = Post.objects.get(slug=slug)
+
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return HttpResponseRedirect(reverse("post-details", args=[slug]))
+        
+        context = {
+        "post": post,
+        "tags": post.tags.all(),
+        "form": comment_form,
+        "all_comments": post.comments.all
+        }
+        
+        return render(request, "blog/post-detail.html", context)
+
+    

@@ -25,9 +25,7 @@
 
         <ul>
             {% for post in posts %}
-            {% if forloop.counter < 4 %}
                 {% include "blog/includes/post.html" %}
-            {% endif %}
             {% endfor %}
         </ul>
 

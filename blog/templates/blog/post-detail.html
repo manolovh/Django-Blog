@@ -12,17 +12,46 @@
 {% block content %}
     <section id="summary">
         <h2>{{ post.title }}</h2>
+        <div>
+            {% for tag in tags %}
+                <span>{{ tag.caption }}</span>
+            {% endfor %}
+        </div>
         <article>
-            <img src="{% static "blog/images/"|add:post.image_name %}" alt="{{ post.title }}" />
-            <address>By {{ post.author }}</address>
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" />
+            <address>By <a href="mailto:{{ post.author.email }}">{{ post.author }}</a></address>
             <div>
                 Last updated on <time>{{ post.date|date:"d M Y" }}</time>
             </div>
-        
         </article>
     </section>
 
     <main>
         {{ post.content|linebreaks }}
     </main>
+
+    <section id="comment-form">
+        <p>Add A Comment</p>
+        <form form="{% url "post-details" post.slug %}" method="POST">
+            {% csrf_token %}
+            {% for element in form %}
+            <div class="form-control">
+                {{ element.label_tag }}
+                {{ element }}
+                {{ element.errors }}
+            </div>
+            {% endfor %}
+            <button>Submit your comment</button>
+        </form>
+    </section>
+
+    <section id="all-comments">
+        <h2>All Post Comments:</h2>
+        {% for comment in all_comments%}
+            <div>
+                <span>{{ comment.user_name }} ({{ comment.title }}):</span>
+                <p>{{ comment.text }}</p>
+            </div>
+        {% endfor %}
+    </section>
 {% endblock %}
