@@ -161,3 +161,41 @@ main {
   color: #b681ff;
   font-weight: bold;
 }
+
+.errorlist {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+  color: rgb(204, 52, 52);
+}
+
+.invalid label {
+  color: rgb(204, 52, 52);
+}
+
+.invalid input,
+.invalid textarea {
+  background-color: rgb(255, 226, 226);
+  border-color: rgb(169, 12, 12);
+}
+
+#error-warning {
+  margin: 8rem auto 3rem auto;
+  font-size: xx-large;
+  color: rgb(204, 52, 52);
+  border: 1px solid rgb(236, 80, 80);
+  background-color: rgb(255, 226, 226);
+  max-width: 75rem;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 25px;
+}
+
+#error-warning a {
+  text-decoration: none;
+  border: 1px solid rgb(236, 80, 80);
+  background-color: rgb(255, 255, 255);
+  color: rgb(204, 52, 52);
+  border-radius: 6px;
+  padding: 0 0.25;
+}

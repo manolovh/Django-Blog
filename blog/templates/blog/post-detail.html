@@ -10,6 +10,12 @@
 {% endblock %}
 
 {% block content %}
+    {% if form.errors %}
+        <div id="error-warning">
+            <p>Please fix the errors in your comment submission!!</p>
+            <a href="#comment-form">Click here to fix!</a>
+        </div>
+    {% endif %}
     <section id="summary">
         <h2>{{ post.title }}</h2>
         <div>
@@ -35,7 +41,7 @@
         <form form="{% url "post-details" post.slug %}" method="POST">
             {% csrf_token %}
             {% for element in form %}
-            <div class="form-control">
+            <div class="form-control {% if element.errors %}invalid{% endif %}">
                 {{ element.label_tag }}
                 {{ element }}
                 {{ element.errors }}
@@ -46,11 +52,11 @@
     </section>
 
     <section id="all-comments">
-        <h2>All Post Comments:</h2>
+        <h2>--------------------Comments--------------------</h2>
         {% for comment in all_comments%}
             <div>
-                <span>{{ comment.user_name }} ({{ comment.title }}):</span>
-                <p>{{ comment.text }}</p>
+                <span>{{ comment.user_name }} - "{{ comment.title }}"</span>
+                <p>{{ comment.text|linebreaks }}</p>
             </div>
         {% endfor %}
     </section>
