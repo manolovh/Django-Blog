@@ -31,13 +31,25 @@ class AllPostsView(ListView):
 
 class PostDetailView(View):
 
+    def is_stored_post(self, request, post_id):
+        stored_posts = request.session.get("stored_posts")
+        if stored_posts is not None:
+            is_saved_for_later = post_id in stored_posts
+        else:
+            is_saved_for_later = False
+
+        return is_saved_for_later
+
     def get(self, request, slug):
         post = Post.objects.get(slug=slug)
+        
+        is_saved = self.is_stored_post(request, post.id)
         context = {
         "post": post,
         "tags": post.tags.all(),
         "form": CommentForm(),
-        "all_comments": post.comments.all().order_by("-id")
+        "all_comments": post.comments.all().order_by("-id"),
+        "saved_for_later": is_saved,
     }
         return render(request, "blog/post-detail.html", context)
 
@@ -51,13 +63,46 @@ class PostDetailView(View):
             comment.save()
             return HttpResponseRedirect(reverse("post-details", args=[slug]))
         
+        is_saved = self.is_stored_post(request, post.id)
         context = {
         "post": post,
         "tags": post.tags.all(),
         "form": comment_form,
-        "all_comments": post.comments.all().order_by("-id")
+        "all_comments": post.comments.all().order_by("-id"),
+        "saved_for_later": is_saved,
         }
         
         return render(request, "blog/post-detail.html", context)
 
     
+class ReadLaterView(View):
+    def get(self, request):
+        stored_posts = request.session.get("stored_posts")
+
+        context = {}
+
+        if stored_posts is None or not stored_posts:
+            context["stored_posts"] = []
+            context["message"] = "Currently you don't have any posts saved to read later."
+        
+        else:
+            posts = Post.objects.filter(id__in=stored_posts)
+            context["stored_posts"] = posts
+
+        return render(request, "blog/stored-posts.html", context)
+    
+    def post(self, request):
+        stored_posts = request.session.get("stored_posts")
+
+        if stored_posts is None:
+            stored_posts = []
+
+        current_post_id = int(request.POST["post_id"])
+        if current_post_id not in stored_posts:
+            stored_posts.append(current_post_id)
+        else:
+            stored_posts.remove(current_post_id)
+            
+        request.session["stored_posts"] = stored_posts
+
+        return HttpResponseRedirect("/read-later")
