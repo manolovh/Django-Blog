@@ -83,7 +83,6 @@ class ReadLaterView(View):
 
         if stored_posts is None or not stored_posts:
             context["stored_posts"] = []
-            context["message"] = "Currently you don't have any posts saved to read later."
         
         else:
             posts = Post.objects.filter(id__in=stored_posts)
