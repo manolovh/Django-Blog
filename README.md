@@ -1,6 +1,6 @@
 # Basic Blog* created with Python, using the Django framework.
 
-*NOTE: The project is not deployed yet.
+*NOTE: The project is deployed on http://djangoblog-env-1.eba-uzd27en3.us-east-1.elasticbeanstalk.com/ with some additional features, such as Comment Section and "Read Later" Section.
 
 
 
